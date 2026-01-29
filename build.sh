@@ -1,1 +1,1 @@
-podman build --target release -t uptime-kuma-custom:latest -f docker/Dockerfile .
+podman build --target release -t cobrakaii/uptime-kuma:latest  -f docker/Dockerfile .
