@@ -86,63 +86,7 @@ export const RESPONSE_BODY_LENGTH_DEFAULT = 1024;
  */
 export const RESPONSE_BODY_LENGTH_MAX = 1024 * 1024;
 
-// Console colors
-// https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
-export const CONSOLE_STYLE_Reset = "\x1b[0m";
-export const CONSOLE_STYLE_Bright = "\x1b[1m";
-export const CONSOLE_STYLE_Dim = "\x1b[2m";
-export const CONSOLE_STYLE_Underscore = "\x1b[4m";
-export const CONSOLE_STYLE_Blink = "\x1b[5m";
-export const CONSOLE_STYLE_Reverse = "\x1b[7m";
-export const CONSOLE_STYLE_Hidden = "\x1b[8m";
-
-export const CONSOLE_STYLE_FgBlack = "\x1b[30m";
-export const CONSOLE_STYLE_FgRed = "\x1b[31m";
-export const CONSOLE_STYLE_FgGreen = "\x1b[32m";
-export const CONSOLE_STYLE_FgYellow = "\x1b[33m";
-export const CONSOLE_STYLE_FgBlue = "\x1b[34m";
-export const CONSOLE_STYLE_FgMagenta = "\x1b[35m";
-export const CONSOLE_STYLE_FgCyan = "\x1b[36m";
-export const CONSOLE_STYLE_FgWhite = "\x1b[37m";
-export const CONSOLE_STYLE_FgGray = "\x1b[90m";
-export const CONSOLE_STYLE_FgOrange = "\x1b[38;5;208m";
-export const CONSOLE_STYLE_FgLightGreen = "\x1b[38;5;119m";
-export const CONSOLE_STYLE_FgLightBlue = "\x1b[38;5;117m";
-export const CONSOLE_STYLE_FgViolet = "\x1b[38;5;141m";
-export const CONSOLE_STYLE_FgBrown = "\x1b[38;5;130m";
-export const CONSOLE_STYLE_FgPink = "\x1b[38;5;219m";
-
-export const CONSOLE_STYLE_BgBlack = "\x1b[40m";
-export const CONSOLE_STYLE_BgRed = "\x1b[41m";
-export const CONSOLE_STYLE_BgGreen = "\x1b[42m";
-export const CONSOLE_STYLE_BgYellow = "\x1b[43m";
-export const CONSOLE_STYLE_BgBlue = "\x1b[44m";
-export const CONSOLE_STYLE_BgMagenta = "\x1b[45m";
-export const CONSOLE_STYLE_BgCyan = "\x1b[46m";
-export const CONSOLE_STYLE_BgWhite = "\x1b[47m";
-export const CONSOLE_STYLE_BgGray = "\x1b[100m";
-
-const consoleModuleColors = [
-    CONSOLE_STYLE_FgCyan,
-    CONSOLE_STYLE_FgGreen,
-    CONSOLE_STYLE_FgLightGreen,
-    CONSOLE_STYLE_FgBlue,
-    CONSOLE_STYLE_FgLightBlue,
-    CONSOLE_STYLE_FgMagenta,
-    CONSOLE_STYLE_FgOrange,
-    CONSOLE_STYLE_FgViolet,
-    CONSOLE_STYLE_FgBrown,
-    CONSOLE_STYLE_FgPink,
-];
-
 type LogLevel = "info" | "warn" | "error" | "debug";
-
-const consoleLevelColors = {
-    info: CONSOLE_STYLE_FgCyan,
-    warn: CONSOLE_STYLE_FgYellow,
-    error: CONSOLE_STYLE_FgRed,
-    debug: CONSOLE_STYLE_FgGray,
-} as const;
 
 export const badgeConstants = {
     naColor: "#999",
@@ -300,32 +244,9 @@ class Logger {
             return;
         }
 
-        const levelColor = consoleLevelColors[level];
-        const moduleColor = consoleModuleColors[intHash(module, consoleModuleColors.length)];
-
-        let timePart: string;
-        let modulePart: string;
-        let levelPart: string;
-
-        if (isNode) {
-            // Add console colors
-            switch (level) {
-                case "debug":
-                    timePart = CONSOLE_STYLE_FgGray + now + CONSOLE_STYLE_Reset;
-                    break;
-                default:
-                    timePart = CONSOLE_STYLE_FgCyan + now + CONSOLE_STYLE_Reset;
-                    break;
-            }
-
-            modulePart = "[" + moduleColor + module + CONSOLE_STYLE_Reset + "]";
-            levelPart = levelColor + `${levelLabel}:` + CONSOLE_STYLE_Reset;
-        } else {
-            // No console colors
-            timePart = now;
-            modulePart = `[${module}]`;
-            levelPart = `${levelLabel}:`;
-        }
+        const timePart = now;
+        const modulePart = `[${module}]`;
+        const levelPart = `${levelLabel}:`;
 
         // Write to console
         switch (level) {
